@@ -153,7 +153,9 @@ export type PaymentPlan = 'full' | 'installments'
 
 export interface IDbService {
   getEnrollments(userId: string): Promise<Enrollment[]>
+  hasEnrollment(userId: string, courseId: string): Promise<boolean>
   addEnrollment(userId: string, courseId: string, plan?: PaymentPlan, secondDueDate?: string): Promise<void>
+  searchStudents(term: string): Promise<ChatPartner[]>
   getCourses(): Promise<Course[]>
   getCourseById(id: string): Promise<Course | null>
   updateCourse(id: string, data: Partial<Course>): Promise<void>

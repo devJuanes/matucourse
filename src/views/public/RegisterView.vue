@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRouter, useRoute } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 import AppLogo from '@/components/ui/AppLogo.vue'
 
 const router = useRouter()
+const route = useRoute()
 const { register, loading, error } = useAuth()
 
 const name = ref('')
@@ -25,7 +26,8 @@ async function handleSubmit() {
   }
   const result = await register(name.value, email.value, password.value)
   if (result.success) {
-    router.push('/dashboard')
+    const redirect = route.query.redirect as string
+    router.push(redirect ?? '/dashboard')
   }
 }
 </script>
@@ -75,7 +77,7 @@ async function handleSubmit() {
 
         <p class="text-center text-sm text-[#6a6f73] mt-6">
           ¿Ya tienes cuenta?
-          <RouterLink to="/login" class="text-[#5624d0] font-bold hover:underline ml-1">Iniciar sesión</RouterLink>
+          <RouterLink :to="{ path: '/login', query: route.query }" class="text-[#5624d0] font-bold hover:underline ml-1">Iniciar sesión</RouterLink>
         </p>
       </div>
     </div>

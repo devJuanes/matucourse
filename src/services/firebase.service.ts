@@ -161,12 +161,27 @@ export class FirebaseDbService implements IDbService {
     }
   }
 
+  async hasEnrollment(userId: string, courseId: string): Promise<boolean> {
+    try {
+      const q = query(
+        collection(firestoreDb, 'enrollments'),
+        where('user_id', '==', userId),
+        where('course_id', '==', courseId),
+      )
+      const snap = await getDocs(q)
+      return !snap.empty
+    } catch {
+      return false
+    }
+  }
+
   async addEnrollment(
     userId: string,
     courseId: string,
     plan: PaymentPlan = 'full',
     secondDueDate?: string,
   ): Promise<void> {
+    if (await this.hasEnrollment(userId, courseId)) return
     await addDoc(collection(firestoreDb, 'enrollments'), {
       user_id: userId,
       course_id: courseId,
@@ -176,6 +191,42 @@ export class FirebaseDbService implements IDbService {
         ? { second_payment_due: secondDueDate, second_payment_status: 'pending' }
         : {}),
     })
+  }
+
+  async searchStudents(term: string): Promise<ChatPartner[]> {
+    try {
+      const snap = await getDocs(collection(firestoreDb, 'users_profile'))
+      const lower = term.toLowerCase().trim()
+      const students: ChatPartner[] = []
+      for (const d of snap.docs) {
+        const data = d.data()
+        if (this.parseIsAdmin(data.is_admin)) continue
+        const name = (data.name as string) ?? ''
+        const email = (data.email as string) ?? ''
+        if (
+          !lower ||
+          name.toLowerCase().includes(lower) ||
+          email.toLowerCase().includes(lower)
+        ) {
+          students.push({
+            user_id: d.id,
+            name: name || email || 'Estudiante',
+            email,
+          })
+        }
+      }
+      return students
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .slice(0, 25)
+    } catch {
+      return []
+    }
+  }
+
+  private parseIsAdmin(value: unknown): boolean {
+    if (value === true || value === 1) return true
+    if (typeof value === 'string' && value.toLowerCase() === 'true') return true
+    return false
   }
 
   private normalizeCourse(id: string, data: Omit<Course, 'id'>): Course {

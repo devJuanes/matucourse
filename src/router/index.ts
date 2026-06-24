@@ -161,6 +161,12 @@ const router = createRouter({
           component: () => import('@/views/admin/AdminSupportTicketsView.vue'),
           meta: { title: 'Tickets de Soporte' },
         },
+        {
+          path: 'enrollments',
+          name: 'admin-enrollments',
+          component: () => import('@/views/admin/AdminEnrollmentsView.vue'),
+          meta: { title: 'Asignar Cursos' },
+        },
       ],
     },
     {

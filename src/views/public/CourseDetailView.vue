@@ -13,8 +13,10 @@ import { useCurrencyStore } from '@/stores/currency'
 import { useAuthStore } from '@/stores/auth'
 import { APP } from '@/config/app'
 import type { Course, CourseModule, CoursePrice, PaymentPlan } from '@/services'
+import { dbService } from '@/services'
 import PaymentPlanModal from '@/components/ui/PaymentPlanModal.vue'
 import AppLogo from '@/components/ui/AppLogo.vue'
+import { savePendingCheckout, clearPendingCheckout } from '@/utils/pendingCheckout'
 
 const route = useRoute()
 const router = useRouter()
@@ -27,15 +29,29 @@ const openModule = ref<number | null>(1)
 const buying = ref(false)
 const buyError = ref('')
 const showPlanModal = ref(false)
+const alreadyEnrolled = ref(false)
+const checkingEnrollment = ref(true)
 
 const course = computed<Course | undefined>(
   () => coursesStore.getCourseById(route.params.id as string)
 )
 
 onMounted(async () => {
+  if (!authStore.sessionReady) {
+    await authStore.initSession()
+  }
   await coursesStore.fetchCourses()
   if (!coursesStore.loading && !course.value) {
     router.push('/courses')
+    return
+  }
+  if (authStore.isAuthenticated && authStore.user?.id && course.value) {
+    alreadyEnrolled.value = await dbService.hasEnrollment(authStore.user.id, course.value.id)
+  }
+  checkingEnrollment.value = false
+  if (route.query.checkout === '1' && authStore.isAuthenticated && !alreadyEnrolled.value) {
+    clearPendingCheckout()
+    showPlanModal.value = true
   }
 })
 
@@ -81,12 +97,40 @@ const totalTopics = computed(
 
 function openPaymentModal() {
   if (!course.value) return
+  buyError.value = ''
+
+  if (alreadyEnrolled.value) {
+    buyError.value = 'Ya tienes este curso inscrito. Ve a Mis Cursos en tu dashboard.'
+    return
+  }
+
+  if (!authStore.isAuthenticated) {
+    const returnPath = `/courses/${course.value.id}?checkout=1`
+    savePendingCheckout({ courseId: course.value.id, returnPath })
+    router.push({ name: 'login', query: { redirect: returnPath } })
+    return
+  }
+
   showPlanModal.value = true
 }
 
 async function handlePlanConfirmed(plan: PaymentPlan, amount: number) {
   if (!course.value) return
   showPlanModal.value = false
+
+  if (!authStore.isAuthenticated || !authStore.user?.id) {
+    const returnPath = `/courses/${course.value.id}?checkout=1`
+    savePendingCheckout({ courseId: course.value.id, returnPath })
+    router.push({ name: 'login', query: { redirect: returnPath } })
+    return
+  }
+
+  if (await dbService.hasEnrollment(authStore.user.id, course.value.id)) {
+    alreadyEnrolled.value = true
+    buyError.value = 'Ya tienes este curso inscrito.'
+    return
+  }
+
   buying.value = true
   buyError.value = ''
   try {
@@ -95,6 +139,8 @@ async function handlePlanConfirmed(plan: PaymentPlan, amount: number) {
     const secondDueDate = plan === 'installments'
       ? (() => { const d = new Date(); d.setDate(d.getDate() + 15); return d.toISOString() })()
       : undefined
+
+    const userId = authStore.user.id
 
     const res = await axios.post(
       `${import.meta.env.VITE_PAYMATUBYTE_URL}/v1/payment`,
@@ -105,8 +151,8 @@ async function handlePlanConfirmed(plan: PaymentPlan, amount: number) {
         description: plan === 'installments'
           ? `Cuota 1/2: ${course.value.title}`
           : `Curso: ${course.value.title}`,
-        reference: `matucourse-${course.value.id}-${Date.now()}`,
-        returnUrl: `${window.location.origin}/payment/result?courseId=${course.value.id}&plan=${plan}${secondDueDate ? `&due=${encodeURIComponent(secondDueDate)}` : ''}`,
+        reference: `matucourse-${course.value.id}-${userId}-${Date.now()}`,
+        returnUrl: `${window.location.origin}/payment/result?courseId=${course.value.id}&plan=${plan}&uid=${userId}${secondDueDate ? `&due=${encodeURIComponent(secondDueDate)}` : ''}`,
       },
       { headers: { 'Authorization': import.meta.env.VITE_PAYMATUBYTE_API_KEY } }
     )
@@ -287,15 +333,30 @@ async function handlePlanConfirmed(plan: PaymentPlan, amount: number) {
             <p class="text-xs text-[#6a6f73] mb-4">o 2 cuotas con pequeño recargo</p>
 
             <!-- Buy button -->
-            <button @click="openPaymentModal" :disabled="buying"
-              class="w-full bg-[#5624d0] hover:bg-[#3d1a9e] disabled:opacity-60 text-white font-bold py-3 text-sm transition-colors mb-3">
-              {{ buying ? 'Procesando...' : '¡Inscribirme ahora!' }}
+            <RouterLink
+              v-if="alreadyEnrolled"
+              to="/dashboard/my-courses"
+              class="block w-full text-center bg-[#5624d0] hover:bg-[#3d1a9e] text-white font-bold py-3 text-sm transition-colors mb-3"
+            >
+              Ir a Mis Cursos
+            </RouterLink>
+            <button
+              v-else
+              type="button"
+              @click="openPaymentModal"
+              :disabled="buying || checkingEnrollment"
+              class="w-full bg-[#5624d0] hover:bg-[#3d1a9e] disabled:opacity-60 text-white font-bold py-3 text-sm transition-colors mb-3"
+            >
+              {{ buying ? 'Procesando...' : (authStore.isAuthenticated ? '¡Inscribirme ahora!' : 'Iniciar sesión para comprar') }}
             </button>
 
             <p v-if="buyError" class="text-red-600 text-xs text-center mb-3">{{ buyError }}</p>
 
-            <RouterLink v-if="!authStore.isAuthenticated" to="/register"
-              class="block w-full text-center border border-[#5624d0] text-[#5624d0] font-bold py-2.5 text-sm hover:bg-[#f0ebff] transition-colors mb-3">
+            <RouterLink
+              v-if="!authStore.isAuthenticated && !alreadyEnrolled"
+              :to="{ path: '/register', query: { redirect: `/courses/${course.id}?checkout=1` } }"
+              class="block w-full text-center border border-[#5624d0] text-[#5624d0] font-bold py-2.5 text-sm hover:bg-[#f0ebff] transition-colors mb-3"
+            >
               Crear cuenta gratis
             </RouterLink>
 
@@ -339,13 +400,21 @@ async function handlePlanConfirmed(plan: PaymentPlan, amount: number) {
           </div>
         </div>
         <p v-if="buyError" class="text-red-600 text-[10px] mb-2 leading-snug">{{ buyError }}</p>
+        <RouterLink
+          v-if="alreadyEnrolled"
+          to="/dashboard/my-courses"
+          class="block w-full text-center bg-[#5624d0] text-white font-bold py-3 text-sm"
+        >
+          Ya inscrito — Ver curso
+        </RouterLink>
         <button
+          v-else
           type="button"
           @click="openPaymentModal"
-          :disabled="buying"
+          :disabled="buying || checkingEnrollment"
           class="w-full bg-[#5624d0] hover:bg-[#3d1a9e] disabled:opacity-60 text-white font-bold py-3 text-sm transition-colors"
         >
-          {{ buying ? 'Procesando...' : '¡Inscribirme ahora!' }}
+          {{ buying ? 'Procesando...' : (authStore.isAuthenticated ? '¡Inscribirme ahora!' : 'Iniciar sesión para comprar') }}
         </button>
       </div>
     </div>

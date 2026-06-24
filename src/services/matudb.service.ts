@@ -93,12 +93,26 @@ export class MatuDBService implements IDbService {
     }
   }
 
+  async hasEnrollment(userId: string, courseId: string): Promise<boolean> {
+    try {
+      const { data } = await db
+        .from('enrollments')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('course_id', courseId)
+      return (data?.length ?? 0) > 0
+    } catch {
+      return false
+    }
+  }
+
   async addEnrollment(
     userId: string,
     courseId: string,
     plan: PaymentPlan = 'full',
     secondDueDate?: string,
   ): Promise<void> {
+    if (await this.hasEnrollment(userId, courseId)) return
     await db.from('enrollments').insert({
       user_id: userId,
       course_id: courseId,
@@ -108,6 +122,10 @@ export class MatuDBService implements IDbService {
         ? { second_payment_due: secondDueDate, second_payment_status: 'pending' }
         : {}),
     })
+  }
+
+  async searchStudents(_term: string): Promise<ChatPartner[]> {
+    return []
   }
 
   async getCourses(): Promise<Course[]> {

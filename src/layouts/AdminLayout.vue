@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { BookOpen, LogOut, CalendarDays, Lock, Headphones, Menu } from '@lucide/vue'
+import { BookOpen, LogOut, CalendarDays, Lock, Headphones, Menu, UserPlus } from '@lucide/vue'
 import AppLogo from '@/components/ui/AppLogo.vue'
 
 const authStore = useAuthStore()
@@ -84,6 +84,14 @@ function closeAdmin() {
           active-class="bg-white/10 text-white"
         >
           <CalendarDays :size="16" /> Agenda
+        </RouterLink>
+        <RouterLink
+          to="/admin/enrollments"
+          @click="closeAdmin"
+          class="flex items-center gap-2.5 px-3 py-2.5 text-sm font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+          active-class="bg-white/10 text-white"
+        >
+          <UserPlus :size="16" /> Asignar cursos
         </RouterLink>
         <RouterLink
           to="/admin/support"

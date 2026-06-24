@@ -55,7 +55,7 @@ async function handleSubmit() {
 
         <p class="text-center text-sm text-[#6a6f73] mt-6">
           ¿No tienes cuenta?
-          <RouterLink to="/register" class="text-[#5624d0] font-bold hover:underline ml-1">Regístrate gratis</RouterLink>
+          <RouterLink :to="{ path: '/register', query: route.query }" class="text-[#5624d0] font-bold hover:underline ml-1">Regístrate gratis</RouterLink>
         </p>
 
         <p class="text-center text-xs text-[#6a6f73] mt-4">
