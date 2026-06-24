@@ -31,10 +31,19 @@ matucourse.matubyte.com  →  IP del VPS
 
 ```bash
 cd ~/apps
-git clone <repo-matucourse> matucourse
+git clone https://github.com/devJuanes/matucourse.git matucourse
 cd matucourse
-cp .env.production .env   # o edita .env con Firebase + PayMatuByte
+cp .env.example .env   # edita Firebase + PayMatuByte
+bash deploy/deploy.sh
 ```
+
+**Reinstalar desde GitHub** (borra la carpeta y vuelve a clonar):
+
+```bash
+bash deploy/server-bootstrap.sh --reinstall
+```
+
+Repo: [github.com/devJuanes/matucourse](https://github.com/devJuanes/matucourse.git)
 
 ---
 
@@ -52,9 +61,11 @@ sudo bash deploy/setup-ssl.sh   # cuando DNS ya apunta al VPS
 
 ```bash
 cd ~/apps/matucourse
-git pull
+git pull origin main
 bash deploy/deploy.sh
 ```
+
+No uses `remote-deploy.py` si el servidor clona desde GitHub; solo `git pull` + `deploy.sh`.
 
 El script hace: `npm ci` → `npm run build` → `pm2 restart matucourse`.
 
