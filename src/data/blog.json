@@ -1,0 +1,70 @@
+{
+  "posts": [
+    {
+      "id": "mejores-carreras-tecnologia-2026",
+      "title": "Las 5 mejores carreras tecnológicas para estudiar en 2026",
+      "excerpt": "El mercado laboral evoluciona rápido. Te explicamos qué perfiles técnicos tienen mayor demanda y mejor salario en Colombia, España y Estados Unidos.",
+      "category": "Carreras",
+      "author": "Juan E. Landazuri",
+      "date": "2026-06-15",
+      "readTime": "8 min",
+      "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80",
+      "featured": true
+    },
+    {
+      "id": "aprender-programacion-desde-cero",
+      "title": "Cómo aprender programación desde cero en 2026: guía completa",
+      "excerpt": "¿No tienes experiencia en programación? Esta guía paso a paso te muestra el camino desde los fundamentos hasta tu primer trabajo como desarrollador.",
+      "category": "Programación",
+      "author": "Juan E. Landazuri",
+      "date": "2026-06-10",
+      "readTime": "12 min",
+      "image": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
+      "featured": true
+    },
+    {
+      "id": "cpp-vs-python-cual-aprender",
+      "title": "C++ vs Python: ¿cuál deberías aprender primero?",
+      "excerpt": "Comparamos ambos lenguajes en términos de mercado laboral, dificultad de aprendizaje y casos de uso. La respuesta no es la misma para todos.",
+      "category": "Programación",
+      "author": "Juan E. Landazuri",
+      "date": "2026-06-05",
+      "readTime": "6 min",
+      "image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800&q=80",
+      "featured": false
+    },
+    {
+      "id": "produccion-musical-carrera",
+      "title": "¿Es la producción musical una carrera viable en Latinoamérica?",
+      "excerpt": "El streaming cambió la industria musical para siempre. Analizamos las oportunidades reales para productores en Colombia, México y España.",
+      "category": "Música",
+      "author": "Juan E. Landazuri",
+      "date": "2026-05-28",
+      "readTime": "7 min",
+      "image": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80",
+      "featured": false
+    },
+    {
+      "id": "tecnico-vs-universitario",
+      "title": "¿Técnico o universitario? Lo que nadie te dice sobre estudiar tecnología",
+      "excerpt": "Muchos estudiantes se preguntan si vale la pena una carrera universitaria en tecnología o si con cursos técnicos es suficiente. La verdad es más matizada.",
+      "category": "Carreras",
+      "author": "Juan E. Landazuri",
+      "date": "2026-05-20",
+      "readTime": "9 min",
+      "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
+      "featured": false
+    },
+    {
+      "id": "arduino-iot-futuro",
+      "title": "Arduino e IoT: el futuro de la automatización al alcance de todos",
+      "excerpt": "El Internet de las Cosas ya no es ciencia ficción. Aprende cómo Arduino puede abrirte las puertas a la industria de automatización y manufactura inteligente.",
+      "category": "Tecnología",
+      "author": "Juan E. Landazuri",
+      "date": "2026-05-15",
+      "readTime": "5 min",
+      "image": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&q=80",
+      "featured": false
+    }
+  ]
+}

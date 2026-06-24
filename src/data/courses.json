@@ -1,0 +1,210 @@
+{
+  "categories": ["Programación", "Producción Musical", "Piano", "Bases de Datos", "Diseño"],
+  "courses": [
+    {
+      "id": "cpp-fundamentals",
+      "title": "C++ desde Cero",
+      "category": "Programación",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Senior Full-Stack Developer",
+      "level": "Desde cero",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=400&q=80",
+      "price": { "COP": 400000, "USD": 100, "EUR": 92 },
+      "description": "Aprende C++ paso a paso, desde lo básico hasta un nivel intermedio. Clases en vivo con ejercicios prácticos desde el primer día.",
+      "featured": true,
+      "modules": [
+        { "id": 1, "title": "Módulo 1: Fundamentos Básicos", "description": "Configuración del entorno, sintaxis básica, tipos de datos y operadores fundamentales.", "topics": ["Instalación y configuración de entorno", "Estructura básica de un programa C++", "Tipos de datos: int, float, double, char, bool", "Variables, constantes y scope", "Operadores aritméticos, relacionales y lógicos", "Entrada y salida con cin/cout"] },
+        { "id": 2, "title": "Módulo 2: Control de Flujo y Funciones", "description": "Estructuras de control y creación de funciones reutilizables.", "topics": ["Sentencias if, else if, else", "Switch-case para múltiples condiciones", "Bucles: for, while, do-while", "Break, continue y return", "Funciones: declaración, definición e invocación", "Parámetros por valor y por referencia", "Recursividad básica"] },
+        { "id": 3, "title": "Módulo 3: Programación Orientada a Objetos", "description": "Clases, objetos, herencia y polimorfismo en C++.", "topics": ["Clases y objetos", "Atributos y métodos", "Constructores y destructores", "Encapsulamiento: public, private, protected", "Herencia simple y múltiple", "Polimorfismo y métodos virtuales", "Clases abstractas e interfaces"] },
+        { "id": 4, "title": "Módulo 4: Pruebas y Aplicaciones Reales", "description": "Pruebas unitarias, manejo de errores y proyectos del mundo real.", "topics": ["Manejo de excepciones: try, catch, throw", "Introducción a Google Test (gtest)", "Escritura de pruebas unitarias", "Proyecto: sistema de gestión de inventario", "Proyecto: calculadora avanzada con POO", "Buenas prácticas y código limpio en C++"] }
+      ]
+    },
+    {
+      "id": "create-web-app-vue",
+      "title": "Crea tu Primera App Web con Vue.js",
+      "category": "Programación",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Senior Full-Stack Developer",
+      "level": "Principiante",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&q=80",
+      "price": { "COP": 350000, "USD": 88, "EUR": 81 },
+      "description": "Aprende a construir una aplicación web real paso a paso con Vue.js 3. Sin conocimientos previos necesarios — desde cero hasta tu primera app funcionando.",
+      "featured": true,
+      "modules": [
+        { "id": 1, "title": "Módulo 1: HTML, CSS y JavaScript Básico", "description": "Los pilares del desarrollo web para empezar con buen pie.", "topics": ["Estructura HTML5 básica", "Estilos con CSS3", "Variables y funciones en JavaScript", "El DOM y eventos básicos"] },
+        { "id": 2, "title": "Módulo 2: Vue.js desde Cero", "description": "Componentes, reactividad y enrutamiento con Vue 3.", "topics": ["Instalación y proyecto con Vite", "Componentes y props", "Reactividad: ref y reactive", "Vue Router básico"] },
+        { "id": 3, "title": "Módulo 3: Construyendo la App", "description": "Consumo de APIs, formularios y estado global.", "topics": ["Formularios y validación", "Llamadas a APIs con Axios", "Estado global con Pinia", "Deploy en Netlify o Vercel"] },
+        { "id": 4, "title": "Módulo 4: Proyecto Final", "description": "App completa funcional con diseño profesional.", "topics": ["Planificación del proyecto", "UI con Tailwind CSS", "Integración completa", "Publicar tu portafolio"] }
+      ]
+    },
+    {
+      "id": "create-mobile-app",
+      "title": "Crea tu Primera App Móvil con Flutter",
+      "category": "Programación",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Full-Stack & Mobile Developer",
+      "level": "Principiante",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&q=80",
+      "price": { "COP": 370000, "USD": 93, "EUR": 85 },
+      "description": "Desarrolla aplicaciones móviles para Android e iOS con Flutter y Dart. Crea tu primera app real desde cero en clases totalmente en vivo.",
+      "featured": true,
+      "modules": [
+        { "id": 1, "title": "Módulo 1: Dart y Flutter Básico", "description": "Lenguaje Dart y primeros pasos en Flutter.", "topics": ["Instalación de Flutter", "Dart: variables, funciones, clases", "Tu primer 'Hello World' en Flutter", "Widgets básicos: Text, Button, Container"] },
+        { "id": 2, "title": "Módulo 2: Layouts y Navegación", "description": "Interfaces visuales y navegación entre pantallas.", "topics": ["Column, Row, Stack", "ListView y GridView", "Navegación con Navigator", "Bottom Navigation Bar"] },
+        { "id": 3, "title": "Módulo 3: Estado y APIs", "description": "Manejo de estado y consumo de datos externos.", "topics": ["setState y StatefulWidget", "Provider básico", "HTTP requests con Dio", "Mostrar datos en la UI"] },
+        { "id": 4, "title": "Módulo 4: App Real y Publicación", "description": "Construye y publica tu primera app.", "topics": ["Diseño de pantallas completas", "Firebase Auth básico", "Build para Android", "Publicar en Google Play"] }
+      ]
+    },
+    {
+      "id": "postgresql-desde-cero",
+      "title": "Bases de Datos con PostgreSQL y SQL",
+      "category": "Bases de Datos",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Senior Full-Stack Developer",
+      "level": "Principiante",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=400&q=80",
+      "price": { "COP": 340000, "USD": 85, "EUR": 78 },
+      "description": "Aprende SQL y PostgreSQL desde cero. Diseña, crea y consulta bases de datos relacionales con proyectos prácticos reales en cada clase.",
+      "featured": false,
+      "modules": [
+        { "id": 1, "title": "Módulo 1: Fundamentos de Bases de Datos", "description": "Conceptos clave y primeros pasos con PostgreSQL.", "topics": ["¿Qué es una base de datos relacional?", "Instalación de PostgreSQL y pgAdmin", "Crear tablas y tipos de datos", "INSERT, SELECT, UPDATE, DELETE"] },
+        { "id": 2, "title": "Módulo 2: Consultas SQL", "description": "Filtros, ordenamiento, uniones y agrupaciones.", "topics": ["WHERE, ORDER BY, LIMIT", "JOIN: INNER, LEFT, RIGHT", "GROUP BY y funciones de agregación", "Subconsultas básicas"] },
+        { "id": 3, "title": "Módulo 3: Diseño de Base de Datos", "description": "Modelado entidad-relación y normalización.", "topics": ["Modelo entidad-relación", "Claves primarias y foráneas", "Normalización 1NF, 2NF, 3NF", "Índices y rendimiento básico"] },
+        { "id": 4, "title": "Módulo 4: Proyecto Real", "description": "Base de datos de una aplicación real completa.", "topics": ["Diseño de sistema de tienda online", "Procedimientos almacenados", "Vistas y triggers básicos", "Conexión desde Node.js"] }
+      ]
+    },
+    {
+      "id": "nodejs-api",
+      "title": "Crea una API REST con Node.js desde Cero",
+      "category": "Programación",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Senior Full-Stack Developer",
+      "level": "Principiante",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&q=80",
+      "price": { "COP": 360000, "USD": 90, "EUR": 83 },
+      "description": "Construye APIs REST profesionales con Node.js y Express. Aprende autenticación, bases de datos y buenas prácticas para el backend en clases en vivo.",
+      "featured": false,
+      "modules": [
+        { "id": 1, "title": "Módulo 1: Node.js y Express Básico", "description": "El entorno de JavaScript del lado servidor.", "topics": ["¿Qué es Node.js?", "NPM y gestión de paquetes", "Primer servidor con Express", "Rutas y controladores"] },
+        { "id": 2, "title": "Módulo 2: APIs REST", "description": "Diseño e implementación de endpoints REST.", "topics": ["GET, POST, PUT, DELETE", "Parámetros y query strings", "Middleware y CORS", "Manejo de errores"] },
+        { "id": 3, "title": "Módulo 3: Base de Datos", "description": "Conectar la API a PostgreSQL.", "topics": ["Conexión con pg/Prisma", "CRUD completo", "Relaciones entre tablas", "Variables de entorno"] },
+        { "id": 4, "title": "Módulo 4: Autenticación y Deploy", "description": "JWT, seguridad y publicación.", "topics": ["JWT: login y registro", "Middleware de autenticación", "Deploy en Railway o Render", "Documentación con Swagger"] }
+      ]
+    },
+    {
+      "id": "git-github",
+      "title": "Git y GitHub: Control de Versiones",
+      "category": "Programación",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Senior Full-Stack Developer",
+      "level": "Principiante",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&q=80",
+      "price": { "COP": 200000, "USD": 50, "EUR": 46 },
+      "description": "Domina Git y GitHub para trabajar en proyectos reales. Aprende a versionar tu código, colaborar en equipo y contribuir a proyectos open source.",
+      "featured": false,
+      "modules": [
+        { "id": 1, "title": "Módulo 1: Git Fundamentos", "description": "Control de versiones local paso a paso.", "topics": ["Instalación y configuración de Git", "git init, add, commit", "Historial: git log y diff", "Deshacer cambios: reset y revert"] },
+        { "id": 2, "title": "Módulo 2: Ramas y Merging", "description": "Trabajar con ramas y resolver conflictos.", "topics": ["Crear y cambiar ramas", "Merge y rebase", "Resolución de conflictos", "Flujo de trabajo Git Flow"] },
+        { "id": 3, "title": "Módulo 3: GitHub", "description": "Repositorios remotos y colaboración.", "topics": ["Crear repositorio en GitHub", "Push, pull y fetch", "Pull Requests", "Code Review básico"] }
+      ]
+    },
+    {
+      "id": "figma-diseño",
+      "title": "Diseño de Interfaces con Figma",
+      "category": "Diseño",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Full-Stack Developer & UI Designer",
+      "level": "Principiante",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&q=80",
+      "price": { "COP": 300000, "USD": 75, "EUR": 69 },
+      "description": "Crea diseños de interfaces profesionales con Figma. Desde wireframes hasta prototipos interactivos para apps y sitios web, todo en clases en vivo.",
+      "featured": false,
+      "modules": [
+        { "id": 1, "title": "Módulo 1: Figma desde Cero", "description": "Herramientas básicas y primeros diseños.", "topics": ["Interfaz de Figma", "Formas, colores y tipografía", "Componentes básicos", "Guías y grillas"] },
+        { "id": 2, "title": "Módulo 2: UI Design", "description": "Principios de diseño y sistemas visuales.", "topics": ["Jerarquía visual", "Colores y paletas", "Diseño responsive", "Design System básico"] },
+        { "id": 3, "title": "Módulo 3: Prototipo y Entrega", "description": "Prototipos interactivos y entrega al desarrollador.", "topics": ["Prototipado interactivo", "Animaciones básicas", "Exportar assets", "Handoff para desarrolladores"] }
+      ]
+    },
+    {
+      "id": "fl-studio-producer",
+      "title": "Producción Musical con FL Studio",
+      "category": "Producción Musical",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Music Producer & Developer",
+      "level": "Principiante",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&q=80",
+      "price": { "COP": 380000, "USD": 95, "EUR": 87 },
+      "description": "Aprende a producir música profesional desde cero con FL Studio. Desde beatmaking hasta mezcla y masterización en sesiones en vivo.",
+      "featured": false,
+      "modules": [
+        { "id": 1, "title": "Introducción a FL Studio", "description": "Interfaz, herramientas básicas y primeros patrones.", "topics": ["Interfaz de FL Studio", "Step Sequencer", "Piano Roll básico", "Primeros beats"] },
+        { "id": 2, "title": "Síntesis y Sampleo", "description": "Uso de synths nativos y carga de samples.", "topics": ["Sytrus y Harmor", "Edison para samples", "Gestión de samples"] },
+        { "id": 3, "title": "Mezcla y Efectos", "description": "Mixer, efectos y automatización.", "topics": ["Mixer de FL Studio", "EQ y Compresión", "Reverb y Delay", "Automatización"] },
+        { "id": 4, "title": "Masterización y Exportación", "description": "Finalización profesional del track.", "topics": ["Masterización básica", "Exportación en diferentes formatos", "Distribución digital"] }
+      ]
+    },
+    {
+      "id": "piano-desde-cero",
+      "title": "Piano desde Cero",
+      "category": "Piano",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Musician & Educator",
+      "level": "Principiante",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=400&q=80",
+      "price": { "COP": 320000, "USD": 80, "EUR": 74 },
+      "description": "Aprende piano desde los fundamentos: técnica correcta, teoría musical y repertorio moderno en clases virtuales en vivo.",
+      "featured": false,
+      "modules": [
+        { "id": 1, "title": "Fundamentos del Piano", "description": "Postura, digitación y primeras notas.", "topics": ["Postura y técnica", "Notas y escalas básicas", "Ritmo y tiempo"] },
+        { "id": 2, "title": "Teoría Musical Aplicada", "description": "Lectura de partituras y acordes.", "topics": ["Lectura de notas", "Acordes mayores y menores", "Progresiones básicas"] },
+        { "id": 3, "title": "Canciones y Práctica", "description": "Interpretación de canciones completas.", "topics": ["Pop y baladas modernas", "Práctica de repertorio", "Coordinación manos"] }
+      ]
+    },
+    {
+      "id": "arduino-iot",
+      "title": "Arduino y Electrónica para Programadores",
+      "category": "Programación",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Full-Stack & IoT Developer",
+      "level": "Principiante",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=400&q=80",
+      "price": { "COP": 360000, "USD": 90, "EUR": 83 },
+      "description": "Domina Arduino, sensores, actuadores y conceptos de IoT. Proyectos prácticos con hardware real en sesiones en vivo.",
+      "featured": false,
+      "modules": [
+        { "id": 1, "title": "Introducción a Arduino", "description": "Hardware, IDE y primeros sketches.", "topics": ["Placa Arduino Uno", "IDE Arduino", "Primer blink", "Variables y tipos en C++"] },
+        { "id": 2, "title": "Sensores y Actuadores", "description": "Lectura de sensores y control de dispositivos.", "topics": ["Sensor de temperatura", "Servo motors", "LEDs y buzzers", "LCD Display"] },
+        { "id": 3, "title": "Comunicación y IoT", "description": "WiFi, Bluetooth y proyectos conectados.", "topics": ["ESP8266/ESP32", "MQTT básico", "Control remoto via web", "Proyecto final IoT"] }
+      ]
+    },
+    {
+      "id": "web-fullstack",
+      "title": "Desarrollo Web Full-Stack",
+      "category": "Programación",
+      "instructor": "Juan E. Landazuri",
+      "instructorTitle": "Senior Full-Stack Developer",
+      "level": "Desde cero",
+      "modality": "En Vivo",
+      "thumbnail": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&q=80",
+      "price": { "COP": 500000, "USD": 125, "EUR": 115 },
+      "description": "De cero a full-stack: HTML, CSS, JavaScript, Vue.js, Node.js y bases de datos. El curso más completo para convertirte en desarrollador web.",
+      "featured": true,
+      "modules": [
+        { "id": 1, "title": "Frontend Basics", "description": "HTML, CSS y JavaScript.", "topics": ["HTML5 semántico", "CSS3 y Flexbox", "JavaScript ES6+"] },
+        { "id": 2, "title": "Vue.js Framework", "description": "SPA con Vue 3 y Composition API.", "topics": ["Vue 3", "Composition API", "Pinia", "Vue Router"] },
+        { "id": 3, "title": "Backend con Node.js", "description": "APIs REST con Express/Fastify.", "topics": ["Express/Fastify", "REST APIs", "Autenticación JWT"] },
+        { "id": 4, "title": "Bases de Datos", "description": "SQL, PostgreSQL y ORMs.", "topics": ["SQL básico", "PostgreSQL", "Prisma ORM", "MatuDB"] }
+      ]
+    }
+  ]
+}
