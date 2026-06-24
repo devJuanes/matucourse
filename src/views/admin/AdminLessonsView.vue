@@ -11,6 +11,8 @@ const course = ref<Course | null>(null)
 const students = ref<ChatPartner[]>([])
 const loading = ref(true)
 const saving = ref<string | null>(null)
+const saveMessage = ref('')
+const saveError = ref('')
 const expandedLessonId = ref<string | null>(null)
 const openModule = ref<number | null>(1)
 
@@ -50,6 +52,8 @@ function toggleModule(id: number) {
 
 function openEditor(lesson: CourseLesson) {
   expandedLessonId.value = lesson.id
+  saveMessage.value = ''
+  saveError.value = ''
   editForm.value = {
     description: lesson.description ?? '',
     content: lesson.content ?? '',
@@ -74,14 +78,16 @@ async function toggleUnlock(moduleId: number, lesson: CourseLesson) {
 
 async function saveLesson(moduleId: number, lesson: CourseLesson) {
   saving.value = lesson.id
+  saveMessage.value = ''
+  saveError.value = ''
   try {
     await dbService.updateLesson(COURSE_ID, moduleId, lesson.id, {
-      description: editForm.value.description.trim() || undefined,
-      content: editForm.value.content.trim() || undefined,
-      videoUrl: editForm.value.videoUrl.trim() || undefined,
-      imageUrl: editForm.value.imageUrl.trim() || undefined,
-      codeExample: editForm.value.codeExample.trim() || undefined,
-      meetingUrl: editForm.value.meetingUrl.trim() || undefined,
+      description: editForm.value.description.trim(),
+      content: editForm.value.content.trim(),
+      videoUrl: editForm.value.videoUrl.trim(),
+      imageUrl: editForm.value.imageUrl.trim(),
+      codeExample: editForm.value.codeExample.trim(),
+      meetingUrl: editForm.value.meetingUrl.trim(),
       unlocked: lesson.unlocked,
     })
 
@@ -96,6 +102,9 @@ async function saveLesson(moduleId: number, lesson: CourseLesson) {
         lesson_id: lesson.id,
       })
     }
+    saveMessage.value = 'Lección guardada. Los estudiantes la ven al instante.'
+  } catch (e) {
+    saveError.value = e instanceof Error ? e.message : 'No se pudo guardar la lección.'
   } finally {
     saving.value = null
   }
@@ -217,6 +226,8 @@ async function saveLesson(moduleId: number, lesson: CourseLesson) {
                 <Save :size="15" />
                 {{ saving === lesson.id ? 'Guardando...' : 'Guardar lección' }}
               </button>
+              <p v-if="saveMessage && expandedLessonId === lesson.id" class="text-green-700 text-xs mt-3">{{ saveMessage }}</p>
+              <p v-if="saveError && expandedLessonId === lesson.id" class="text-red-600 text-xs mt-3">{{ saveError }}</p>
             </div>
           </div>
         </div>

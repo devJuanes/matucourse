@@ -57,14 +57,14 @@ export const CPP_COURSE_SEED: Course = {
   modules: buildModulesFromJson(),
 }
 
-/** Combina el contenido completo del seed con `unlocked` guardado en Firestore. */
+/** Combina el seed con datos guardados en Firestore (contenido, URLs, unlocked, etc.). */
 export function mergeCppCourseFromFirestore(dbCourse: Course | null): Course {
   if (!dbCourse) return CPP_COURSE_SEED
 
-  const unlockedById = new Map<string, boolean>()
+  const dbLessonById = new Map<string, CourseLesson>()
   for (const mod of dbCourse.modules ?? []) {
     for (const lesson of mod.lessons ?? []) {
-      unlockedById.set(lesson.id, lesson.unlocked)
+      dbLessonById.set(lesson.id, lesson)
     }
   }
 
@@ -75,11 +75,10 @@ export function mergeCppCourseFromFirestore(dbCourse: Course | null): Course {
       const dbMod = dbCourse.modules?.find((m) => m.id === seedMod.id)
       return {
         ...seedMod,
-        lessons: seedMod.lessons?.map((lesson) => ({
-          ...lesson,
-          unlocked: unlockedById.has(lesson.id) ? unlockedById.get(lesson.id)! : lesson.unlocked,
-        })),
-        // Conservar topics del seed; Firestore antiguo puede no tenerlos
+        lessons: seedMod.lessons?.map((lesson) => {
+          const dbLesson = dbLessonById.get(lesson.id)
+          return dbLesson ? { ...lesson, ...dbLesson } : lesson
+        }),
         topics: seedMod.topics ?? dbMod?.topics,
       }
     }),

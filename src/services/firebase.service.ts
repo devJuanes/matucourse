@@ -22,6 +22,7 @@ import {
 } from 'firebase/firestore'
 import { firebaseAuth, firestoreDb } from '@/firebase/config'
 import { CPP_COURSE_SEED, mergeCppCourseFromFirestore } from '@/data/cpp-course-seed'
+import { stripUndefined } from '@/utils/firestoreSanitize'
 import type {
   MatuUser,
   Enrollment,
@@ -261,7 +262,10 @@ export class FirebaseDbService implements IDbService {
   }
 
   async updateCourse(id: string, data: Partial<Course>): Promise<void> {
-    await updateDoc(doc(firestoreDb, 'courses', id), data as Record<string, unknown>)
+    await updateDoc(
+      doc(firestoreDb, 'courses', id),
+      stripUndefined(data) as Record<string, unknown>,
+    )
   }
 
   async seedCourses(courses: Course[]): Promise<void> {
@@ -527,14 +531,20 @@ export class FirebaseDbService implements IDbService {
   ): Promise<void> {
     const course = await this.getCourseById(courseId)
     if (!course) throw new Error('Curso no encontrado')
+
+    const cleanData = stripUndefined(data)
     const modules = course.modules.map((m) => {
       if (m.id !== moduleId) return m
       const lessons = (m.lessons ?? []).map((l) =>
-        l.id === lessonId ? { ...l, ...data } : l,
+        l.id === lessonId ? stripUndefined({ ...l, ...cleanData }) : l,
       )
       return { ...m, lessons }
     })
-    await updateDoc(doc(firestoreDb, 'courses', courseId), { modules })
+
+    await updateDoc(
+      doc(firestoreDb, 'courses', courseId),
+      stripUndefined({ modules }) as Record<string, unknown>,
+    )
   }
 
   async updateLessonUnlock(
