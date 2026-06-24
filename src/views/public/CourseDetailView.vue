@@ -17,6 +17,7 @@ import { dbService } from '@/services'
 import PaymentPlanModal from '@/components/ui/PaymentPlanModal.vue'
 import AppLogo from '@/components/ui/AppLogo.vue'
 import { savePendingCheckout, clearPendingCheckout } from '@/utils/pendingCheckout'
+import { buildPaymentReference } from '@/utils/paymentReference'
 
 const route = useRoute()
 const router = useRouter()
@@ -142,16 +143,24 @@ async function handlePlanConfirmed(plan: PaymentPlan, amount: number) {
 
     const userId = authStore.user.id
 
+    const curr = currencyStore.selected
+    let payAmount = amount
+    let payCurrency: 'COP' | 'USD' = curr === 'USD' ? 'USD' : 'COP'
+    if (curr === 'EUR') {
+      payCurrency = 'USD'
+      const ratio = course.value.price.USD / course.value.price.EUR
+      payAmount = Math.round(amount * ratio)
+    }
+
     const res = await axios.post(
       `${import.meta.env.VITE_PAYMATUBYTE_URL}/v1/payment`,
       {
-        productId: course.value.id,
-        amount,
-        currency: 'COP',
+        amount: payAmount,
+        currency: payCurrency,
         description: plan === 'installments'
           ? `Cuota 1/2: ${course.value.title}`
           : `Curso: ${course.value.title}`,
-        reference: `matucourse-${course.value.id}-${userId}-${Date.now()}`,
+        reference: buildPaymentReference(course.value.id, userId),
         returnUrl: `${window.location.origin}/payment/result?courseId=${course.value.id}&plan=${plan}&uid=${userId}${secondDueDate ? `&due=${encodeURIComponent(secondDueDate)}` : ''}`,
       },
       { headers: { 'Authorization': import.meta.env.VITE_PAYMATUBYTE_API_KEY } }
