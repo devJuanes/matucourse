@@ -63,7 +63,7 @@ const firstName = () => {
 </script>
 
 <template>
-  <div class="p-8 max-w-[1100px]">
+  <div class="max-w-[1100px] mx-auto w-full">
 
     <div class="mb-8 border-b border-[#d1d7dc] pb-6">
       <h2 class="text-2xl font-extrabold text-[#1c1d1f]">Hola, {{ firstName() }}.</h2>

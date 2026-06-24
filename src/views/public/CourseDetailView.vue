@@ -138,7 +138,7 @@ async function handlePlanConfirmed(plan: PaymentPlan, amount: number) {
     </div>
   </div>
 
-  <div v-else-if="course" class="min-h-screen bg-white text-[#1c1d1f]">
+  <div v-else-if="course" class="min-h-screen bg-white text-[#1c1d1f] pb-[7.5rem] lg:pb-0">
 
     <!-- Payment plan modal -->
     <PaymentPlanModal
@@ -311,21 +311,43 @@ async function handlePlanConfirmed(plan: PaymentPlan, amount: number) {
     </div>
 
     <!-- Mobile buy bar -->
-    <div class="lg:hidden fixed bottom-0 left-0 right-0 border-t border-[#d1d7dc] bg-white p-3 flex items-center gap-3 shadow-lg z-40">
-      <div class="flex-1">
-        <span class="text-xl font-extrabold">{{ formatPrice(course.price, currencyStore.selected) }}</span>
-        <span class="text-xs text-[#6a6f73] ml-1">{{ currencyStore.selected }}</span>
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 border-t border-[#d1d7dc] bg-white shadow-lg z-40 safe-bottom">
+      <div class="px-3 pt-3 pb-1">
+        <div class="flex items-center justify-between gap-3 mb-2">
+          <div class="min-w-0 flex-1">
+            <p class="text-lg font-extrabold text-[#1c1d1f] leading-tight truncate">
+              {{ formatPrice(course.price, currencyStore.selected) }}
+              <span class="text-xs font-semibold text-[#6a6f73] ml-1">{{ currencyStore.selected }}</span>
+            </p>
+            <p class="text-[10px] text-[#6a6f73] mt-0.5">o 2 cuotas con pequeño recargo</p>
+          </div>
+          <div class="flex gap-1 flex-shrink-0">
+            <button
+              v-for="c in ['COP', 'USD', 'EUR']"
+              :key="c"
+              type="button"
+              @click="currencyStore.setCurrency(c as 'COP' | 'USD' | 'EUR')"
+              :class="[
+                'text-[10px] font-bold px-2.5 py-1.5 min-w-[2.5rem] text-center transition-colors',
+                currencyStore.selected === c
+                  ? 'bg-[#5624d0] text-white'
+                  : 'border border-[#d1d7dc] text-[#1c1d1f] bg-white',
+              ]"
+            >
+              {{ c }}
+            </button>
+          </div>
+        </div>
+        <p v-if="buyError" class="text-red-600 text-[10px] mb-2 leading-snug">{{ buyError }}</p>
+        <button
+          type="button"
+          @click="openPaymentModal"
+          :disabled="buying"
+          class="w-full bg-[#5624d0] hover:bg-[#3d1a9e] disabled:opacity-60 text-white font-bold py-3 text-sm transition-colors"
+        >
+          {{ buying ? 'Procesando...' : '¡Inscribirme ahora!' }}
+        </button>
       </div>
-      <div class="flex gap-2">
-        <button v-for="c in ['COP','USD','EUR']" :key="c"
-          @click="currencyStore.setCurrency(c as 'COP'|'USD'|'EUR')"
-          :class="currencyStore.selected === c ? 'bg-[#5624d0] text-white' : 'border border-[#d1d7dc] text-[#1c1d1f]'"
-          class="text-xs font-bold px-2 py-1">{{ c }}</button>
-      </div>
-      <button @click="openPaymentModal" :disabled="buying"
-        class="bg-[#5624d0] text-white font-bold px-5 py-2.5 text-sm disabled:opacity-60 hover:bg-[#3d1a9e] transition-colors">
-        {{ buying ? '...' : 'Comprar' }}
-      </button>
     </div>
 
   </div>

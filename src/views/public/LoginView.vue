@@ -28,7 +28,7 @@ async function handleSubmit() {
     </div>
 
     <div class="flex-1 flex items-center justify-center p-4">
-      <div class="bg-white border border-[#d1d7dc] w-full max-w-md p-8">
+      <div class="bg-white border border-[#d1d7dc] w-full max-w-md p-6 sm:p-8">
         <h1 class="text-2xl font-extrabold text-[#1c1d1f] mb-6 text-center">Iniciar Sesión</h1>
 
         <div v-if="error" class="bg-red-50 border border-red-200 text-red-700 text-sm p-3 mb-5">

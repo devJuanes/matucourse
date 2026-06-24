@@ -9,7 +9,7 @@ import { useGamification } from '@/composables/useGamification'
 import { formatLessonContent } from '@/utils/formatLessonContent'
 import {
   ArrowLeft, Lock, PlayCircle, CheckCircle2, BookOpen, ChevronDown, ChevronRight,
-  Flame, Award, Video,
+  Flame, Award, Video, List, X,
 } from '@lucide/vue'
 
 const route = useRoute()
@@ -33,6 +33,7 @@ const progress = computed(() => {
 })
 
 const courseComplete = computed(() => progress.value >= 100)
+const mobileCurriculumOpen = ref(false)
 
 let unsubscribe: (() => void) | null = null
 
@@ -100,6 +101,7 @@ function toggleModule(id: number) {
 function selectLesson(lesson: CourseLesson) {
   if (!lesson.unlocked) return
   activeLesson.value = lesson
+  mobileCurriculumOpen.value = false
   if (authStore.user?.id && course.value) {
     useLessonProgress(authStore.user.id, course.value.id).markComplete(lesson.id)
     syncGamification(course.value)
@@ -121,14 +123,21 @@ function lessonIcon(lesson: CourseLesson) {
     <div class="w-8 h-8 border-4 border-[#5624d0] border-t-transparent rounded-full animate-spin"></div>
   </div>
 
-  <div v-else-if="course" class="flex flex-col h-[calc(100vh-56px)]">
+  <div v-else-if="course" class="flex flex-col min-h-[calc(100dvh-3.5rem)] lg:min-h-[calc(100vh-56px)] -mx-4 md:mx-0">
 
     <!-- Top bar -->
-    <div class="border-b border-[#d1d7dc] bg-white px-6 py-3 flex-shrink-0">
-      <div class="flex items-center gap-4">
-        <RouterLink to="/dashboard/my-courses" class="text-[#6a6f73] hover:text-[#1c1d1f] flex items-center gap-1 text-sm font-semibold">
-          <ArrowLeft :size="16" /> Mis Cursos
+    <div class="border-b border-[#d1d7dc] bg-white px-3 sm:px-6 py-3 flex-shrink-0">
+      <div class="flex items-center gap-2 sm:gap-4">
+        <RouterLink to="/dashboard/my-courses" class="text-[#6a6f73] hover:text-[#1c1d1f] flex items-center gap-1 text-xs sm:text-sm font-semibold flex-shrink-0">
+          <ArrowLeft :size="16" /> <span class="hidden sm:inline">Mis Cursos</span>
         </RouterLink>
+        <button
+          type="button"
+          class="md:hidden flex items-center gap-1.5 text-xs font-bold text-[#5624d0] border border-[#5624d0] px-2.5 py-1.5 flex-shrink-0"
+          @click="mobileCurriculumOpen = true"
+        >
+          <List :size="14" /> Contenido
+        </button>
         <div class="flex-1 min-w-0">
           <h1 class="font-extrabold text-[#1c1d1f] text-sm truncate">{{ course.title }}</h1>
           <div class="flex items-center gap-2 mt-1">
@@ -159,7 +168,7 @@ function lessonIcon(lesson: CourseLesson) {
         </div>
         <div
           :class="[
-            'flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 border ml-auto',
+            'flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 border w-full sm:w-auto sm:ml-auto',
             courseComplete
               ? 'border-[#5624d0] text-[#5624d0] bg-[#ede8f5]'
               : 'border-[#d1d7dc] text-[#6a6f73] bg-[#f7f9fa] opacity-70',
@@ -170,6 +179,42 @@ function lessonIcon(lesson: CourseLesson) {
           {{ courseComplete ? 'Certificado disponible' : 'Certificado (completa el curso)' }}
         </div>
       </div>
+    </div>
+
+    <!-- Mobile curriculum drawer -->
+    <div v-if="mobileCurriculumOpen" class="fixed inset-0 z-50 md:hidden">
+      <div class="absolute inset-0 bg-black/40" @click="mobileCurriculumOpen = false" />
+      <aside class="absolute left-0 top-0 bottom-0 w-[min(320px,92vw)] bg-[#f7f9fa] border-r border-[#d1d7dc] overflow-y-auto shadow-xl">
+        <div class="p-4 border-b border-[#d1d7dc] bg-white flex items-center justify-between">
+          <p class="text-xs font-bold text-[#6a6f73] uppercase">Contenido del curso</p>
+          <button type="button" class="p-1" @click="mobileCurriculumOpen = false">
+            <X :size="20" />
+          </button>
+        </div>
+        <div v-for="mod in course.modules" :key="'m-' + mod.id" class="border-b border-[#d1d7dc]">
+          <button type="button" @click="toggleModule(mod.id)" class="w-full flex items-center gap-2 px-4 py-3 text-left bg-white">
+            <component :is="openModule === mod.id ? ChevronDown : ChevronRight" :size="14" class="text-[#5624d0]" />
+            <span class="text-xs font-bold leading-snug">{{ mod.title }}</span>
+          </button>
+          <div v-if="openModule === mod.id" class="bg-white pb-2">
+            <button
+              v-for="lesson in mod.lessons ?? []"
+              :key="lesson.id"
+              type="button"
+              @click="selectLesson(lesson)"
+              :disabled="!lesson.unlocked"
+              :class="[
+                'w-full flex items-start gap-2 px-4 py-2.5 text-left text-xs',
+                activeLesson?.id === lesson.id ? 'bg-[#ede8f5] border-l-4 border-[#5624d0]' : 'border-l-4 border-transparent',
+                !lesson.unlocked && 'opacity-50',
+              ]"
+            >
+              <component :is="lessonIcon(lesson)" :size="14" class="mt-0.5 flex-shrink-0" />
+              <span class="font-semibold">{{ lesson.title }}</span>
+            </button>
+          </div>
+        </div>
+      </aside>
     </div>
 
     <div class="flex flex-1 min-h-0">
@@ -220,7 +265,7 @@ function lessonIcon(lesson: CourseLesson) {
 
       <!-- Main content -->
       <main class="flex-1 overflow-y-auto bg-white">
-        <div v-if="activeLesson" class="max-w-3xl mx-auto p-6 md:p-10">
+        <div v-if="activeLesson" class="max-w-3xl mx-auto p-4 sm:p-6 md:p-10">
           <div class="mb-6">
             <p class="text-xs font-bold text-[#5624d0] uppercase tracking-wide mb-2">Lección actual</p>
             <h2 class="text-2xl font-extrabold text-[#1c1d1f]">{{ activeLesson.title }}</h2>

@@ -5,7 +5,7 @@ import { MessageCircle, Headphones } from '@lucide/vue'
 </script>
 
 <template>
-  <div class="p-8 max-w-[800px]">
+  <div class="max-w-[800px] mx-auto w-full">
     <div class="mb-8 border-b border-[#d1d7dc] pb-6">
       <h1 class="text-2xl font-extrabold text-[#1c1d1f]">Ayuda y soporte</h1>
       <p class="text-[#6a6f73] text-sm mt-1">

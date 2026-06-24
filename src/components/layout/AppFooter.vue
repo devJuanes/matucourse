@@ -13,7 +13,7 @@ const categories = coursesData.categories
 
 <template>
   <footer class="bg-[#1c1d1f] border-t border-[#3e4143] text-gray-400">
-    <div class="max-w-[1340px] mx-auto px-4 pt-12 pb-8 grid grid-cols-2 md:grid-cols-6 gap-8">
+    <div class="max-w-[1340px] mx-auto px-4 pt-8 sm:pt-12 pb-6 sm:pb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-6 sm:gap-8">
 
       <!-- Brand column -->
       <div class="col-span-2 md:col-span-2">

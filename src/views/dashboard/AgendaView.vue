@@ -40,10 +40,10 @@ const todaySessions = computed(() => schedule.value[todayCapitalized] ?? [])
 </script>
 
 <template>
-  <div class="p-8 max-w-[1100px]">
+  <div class="max-w-[1100px] mx-auto w-full">
 
     <div class="mb-8 border-b border-[#d1d7dc] pb-6">
-      <h2 class="text-2xl font-extrabold text-[#1c1d1f]">Agenda de Clases</h2>
+      <h2 class="text-xl sm:text-2xl font-extrabold text-[#1c1d1f]">Agenda de Clases</h2>
       <p class="text-[#6a6f73] text-sm mt-1">Horario de tus cursos inscritos — hora Colombia (UTC-5)</p>
     </div>
 
@@ -75,7 +75,8 @@ const todaySessions = computed(() => schedule.value[todayCapitalized] ?? [])
       <!-- Semana -->
       <div v-else>
         <h3 class="font-extrabold text-[#1c1d1f] text-base mb-4">Horario Semanal</h3>
-        <div class="border border-[#d1d7dc]">
+        <div class="border border-[#d1d7dc] overflow-x-auto">
+          <div class="min-w-[640px]">
           <div class="grid grid-cols-6 border-b border-[#d1d7dc] bg-[#f7f9fa]">
             <div
               v-for="day in weekDays"
@@ -108,6 +109,7 @@ const todaySessions = computed(() => schedule.value[todayCapitalized] ?? [])
               </div>
               <p v-else class="text-[10px] text-[#d1d7dc] text-center pt-4">—</p>
             </div>
+          </div>
           </div>
         </div>
       </div>

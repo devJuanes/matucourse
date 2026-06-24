@@ -55,7 +55,7 @@ function onCourseChange() {
 </script>
 
 <template>
-  <div class="p-8 max-w-[900px]">
+  <div class="max-w-[900px] mx-auto w-full">
     <div class="mb-8 border-b border-[#d1d7dc] pb-6">
       <h1 class="text-2xl font-extrabold text-[#1c1d1f]">Gestionar Agenda</h1>
       <p class="text-[#6a6f73] text-sm mt-1">Programa las clases en vivo que verán tus estudiantes</p>

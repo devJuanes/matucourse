@@ -9,8 +9,22 @@ body {
   color: #1c1d1f;
   background: #fff;
   margin: 0;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+/* Safe area for notched phones / home indicator */
+.safe-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+.safe-top {
+  padding-top: max(0rem, env(safe-area-inset-top));
 }
 
 /* Udemy-style focus ring */

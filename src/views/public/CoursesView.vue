@@ -50,7 +50,7 @@ const filtered = computed(() => {
       <div class="max-w-[1340px] mx-auto px-4 h-full flex items-center gap-3">
         <AppLogo class="mr-2" />
 
-        <div class="flex-1 flex items-center">
+        <div class="flex-1 hidden sm:flex items-center min-w-0">
           <input
             v-model="searchQuery"
             type="text"
@@ -59,7 +59,7 @@ const filtered = computed(() => {
           />
         </div>
 
-        <div class="ml-auto flex items-center gap-3">
+        <div class="ml-auto flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <div class="hidden md:flex items-center gap-1">
             <button v-for="c in ['COP','USD','EUR']" :key="c"
               @click="currencyStore.setCurrency(c as 'COP'|'USD'|'EUR')"
@@ -79,7 +79,7 @@ const filtered = computed(() => {
             <RouterLink to="/login" class="hidden md:block text-sm font-semibold text-[#1c1d1f] border border-[#1c1d1f] px-3 py-1.5 hover:bg-[#f7f9fa] transition-colors">
               Iniciar Sesión
             </RouterLink>
-            <RouterLink to="/register" class="text-sm font-semibold text-white bg-[#5624d0] border border-[#5624d0] px-3 py-1.5 hover:bg-[#3d1a9e] transition-colors">
+            <RouterLink to="/register" class="text-xs sm:text-sm font-semibold text-white bg-[#5624d0] border border-[#5624d0] px-2.5 sm:px-3 py-1.5 hover:bg-[#3d1a9e] transition-colors whitespace-nowrap">
               Registrarse
             </RouterLink>
           </template>
@@ -89,13 +89,20 @@ const filtered = computed(() => {
 
     <!-- Top bar -->
     <div class="border-b border-[#d1d7dc] bg-[#f7f9fa]">
-      <div class="max-w-[1340px] mx-auto px-4 py-8">
-        <h1 class="text-3xl font-extrabold text-[#1c1d1f] mb-1">Todos los Cursos</h1>
+      <div class="max-w-[1340px] mx-auto px-4 py-5 sm:py-8">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-[#1c1d1f] mb-1">Todos los Cursos</h1>
         <p class="text-[#6a6f73] text-sm">{{ filtered.length }} resultado{{ filtered.length !== 1 ? 's' : '' }}</p>
       </div>
     </div>
 
-    <div class="max-w-[1340px] mx-auto px-4 py-6">
+    <div class="max-w-[1340px] mx-auto px-4 py-4 sm:py-6">
+      <input
+        v-model="searchQuery"
+        type="search"
+        placeholder="Buscar cursos..."
+        class="sm:hidden w-full border border-[#1c1d1f] px-4 py-2.5 text-sm outline-none focus:border-[#5624d0] mb-4"
+      />
+
       <!-- Filter row -->
       <div class="flex flex-wrap gap-3 mb-6 items-center">
         <div class="flex flex-wrap gap-2">

@@ -63,7 +63,7 @@ function statusClass(status: SupportTicketStatus) {
 </script>
 
 <template>
-  <div class="p-8 max-w-[1100px]">
+  <div class="max-w-[1100px] mx-auto w-full">
     <div class="mb-8 border-b border-[#d1d7dc] pb-6 flex items-start gap-4">
       <Headphones :size="28" class="text-[#5624d0] flex-shrink-0" />
       <div>
