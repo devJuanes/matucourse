@@ -60,12 +60,27 @@ sudo bash deploy/setup-ssl.sh   # cuando DNS ya apunta al VPS
 ## 4. Deploy habitual (en el servidor)
 
 ```bash
-cd ~/apps/matucourse
-git pull origin main
+cd /root/apps/matucourse
 bash deploy/deploy.sh
 ```
 
-No uses `remote-deploy.py` si el servidor clona desde GitHub; solo `git pull` + `deploy.sh`.
+`deploy.sh` hace `git fetch` + `reset --hard origin/main` automático (descarta cambios locales en el repo).
+
+Si prefieres manual:
+
+```bash
+git fetch origin main && git reset --hard origin/main
+bash deploy/deploy.sh
+```
+
+**Reinstalar desde cero** (ejecuta fuera de la carpeta del proyecto):
+
+```bash
+cd /root/apps
+bash matucourse/deploy/server-bootstrap.sh --reinstall
+```
+
+No ejecutes `--reinstall` estando dentro de `/root/apps/matucourse` (borra el cwd y falla `git clone`).
 
 El script hace: `npm ci` → `npm run build` → `pm2 restart matucourse`.
 

@@ -18,6 +18,14 @@ done
 
 echo "→ MatuCourse deploy en $ROOT"
 
+# Sincronizar con GitHub (el servidor no debe tener cambios locales)
+if [[ -d .git ]] && [[ "${SKIP_GIT:-false}" != true ]]; then
+  echo "→ git fetch + reset a origin/main"
+  git fetch origin main
+  git checkout main 2>/dev/null || true
+  git reset --hard origin/main
+fi
+
 if [[ ! -f .env ]]; then
   if [[ -f .env.production ]]; then
     echo "→ Copiando .env.production → .env"

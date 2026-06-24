@@ -61,7 +61,9 @@ if [[ -f {APP_DIR}/.env ]]; then
   cp {APP_DIR}/.env "$BACKUP_ENV"
   echo "→ .env respaldado"
 fi
+APP_PARENT="$(dirname "{APP_DIR}")"
 echo "→ rm -rf {APP_DIR}"
+cd "$APP_PARENT" 2>/dev/null || cd /tmp
 rm -rf {APP_DIR}
 echo "→ git clone {REPO}"
 git clone {REPO} {APP_DIR}
