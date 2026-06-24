@@ -83,7 +83,12 @@ if [[ -f /etc/nginx/sites-available/matucourse.matubyte.com ]] || [[ -d /etc/ngi
   fi
   echo "→ Nginx: $NGINX_CONF"
   sudo cp "$NGINX_CONF" /etc/nginx/sites-available/matucourse.matubyte.com
-  sudo ln -sf /etc/nginx/sites-available/matucourse.matubyte.com /etc/nginx/sites-enabled/
+  sudo ln -sf /etc/nginx/sites-available/matucourse.matubyte.com /etc/nginx/sites-enabled/matucourse.matubyte.com
+  # Quitar sitio viejo (root = proyecto, no dist/)
+  if [[ -L /etc/nginx/sites-enabled/matucourse ]] || [[ -f /etc/nginx/sites-enabled/matucourse ]]; then
+    echo "→ Eliminando nginx sites-enabled/matucourse (duplicado)"
+    sudo rm -f /etc/nginx/sites-enabled/matucourse
+  fi
   sudo nginx -t
   sudo systemctl reload nginx
   # PM2 serve ya no se usa; evita que siga sirviendo index.html de desarrollo
