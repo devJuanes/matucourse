@@ -22,7 +22,7 @@ import {
 } from 'firebase/firestore'
 import { firebaseAuth, firestoreDb } from '@/firebase/config'
 import { CPP_COURSE_SEED, mergeCppCourseFromFirestore } from '@/data/cpp-course-seed'
-import { stripUndefined } from '@/utils/firestoreSanitize'
+import { stripUndefined, sanitizeForFirestore, buildLessonPatch } from '@/utils/firestoreSanitize'
 import type {
   MatuUser,
   Enrollment,
@@ -264,7 +264,7 @@ export class FirebaseDbService implements IDbService {
   async updateCourse(id: string, data: Partial<Course>): Promise<void> {
     await updateDoc(
       doc(firestoreDb, 'courses', id),
-      stripUndefined(data) as Record<string, unknown>,
+      sanitizeForFirestore(stripUndefined(data)) as Record<string, unknown>,
     )
   }
 
@@ -277,7 +277,10 @@ export class FirebaseDbService implements IDbService {
   }
 
   async seedCppCourse(): Promise<void> {
-    await setDoc(doc(firestoreDb, 'courses', CPP_COURSE_SEED.id), CPP_COURSE_SEED)
+    await setDoc(
+      doc(firestoreDb, 'courses', CPP_COURSE_SEED.id),
+      sanitizeForFirestore(CPP_COURSE_SEED),
+    )
   }
 
   subscribeCourse(courseId: string, onUpdate: (course: Course | null) => void): () => void {
@@ -529,21 +532,34 @@ export class FirebaseDbService implements IDbService {
     lessonId: string,
     data: Partial<CourseLesson>,
   ): Promise<void> {
-    const course = await this.getCourseById(courseId)
-    if (!course) throw new Error('Curso no encontrado')
+    const patch = buildLessonPatch(data as Record<string, unknown>)
+    if (Object.keys(patch).length === 0) return
 
-    const cleanData = stripUndefined(data)
-    const modules = course.modules.map((m) => {
-      if (m.id !== moduleId) return m
-      const lessons = (m.lessons ?? []).map((l) =>
-        l.id === lessonId ? stripUndefined({ ...l, ...cleanData }) : l,
-      )
-      return { ...m, lessons }
-    })
+    const snap = await getDoc(doc(firestoreDb, 'courses', courseId))
+    const existing = snap.exists() ? snap.data() : {}
+
+    type StoredModule = { id: number; title?: string; description?: string; lessons?: CourseLesson[] }
+    const modules: StoredModule[] = Array.isArray(existing.modules)
+      ? sanitizeForFirestore(existing.modules)
+      : []
+
+    let mod = modules.find((m) => m.id === moduleId)
+    if (!mod) {
+      mod = { id: moduleId, lessons: [] }
+      modules.push(mod)
+    }
+    if (!mod.lessons) mod.lessons = []
+
+    const idx = mod.lessons.findIndex((l) => l.id === lessonId)
+    if (idx >= 0) {
+      mod.lessons[idx] = sanitizeForFirestore({ ...mod.lessons[idx], ...patch }) as CourseLesson
+    } else {
+      mod.lessons.push(sanitizeForFirestore({ id: lessonId, unlocked: false, ...patch }) as CourseLesson)
+    }
 
     await updateDoc(
       doc(firestoreDb, 'courses', courseId),
-      stripUndefined({ modules }) as Record<string, unknown>,
+      sanitizeForFirestore({ modules }) as Record<string, unknown>,
     )
   }
 
